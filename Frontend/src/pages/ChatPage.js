@@ -1,27 +1,34 @@
-import React, { useState } from "react";
-import { Box } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import "./ChatPage.css";
 import { ChatState } from "../context/ChatProvider";
-import SideDrawer from "../components/SideDrawer";
+import { ToastContainer } from "react-toastify";
+import Navbar from "../components/Navbar";
 import MyChats from "../components/MyChats";
 import ChatBox from "../components/ChatBox";
-import { ToastContainer } from "react-toastify";
+import Loader from "../components/Loader";
 
-const ChatPage = () => {
+const Chat = () => {
   const { user } = ChatState();
   const [fetchAgain, setFetchAgain] = useState(false);
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
 
+  if(!user){
+    return <div><Loader/></div>
+  }
   return (
-    <div style={{ height: "100vh" }} className="chatContainer">
-      {user && <SideDrawer />}
-      <Box d="flex" justifyContent="space-between" w="100%" h="91.rvh" p="10px">
+    <div className="chatPage col-12 container-fluid p-0 gap-10 ">
+      <Navbar />
+      <div className="chatArea ">
         {user && <MyChats fetchAgain={fetchAgain} />}
         {user && (
           <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
         )}
-      </Box>
+      </div>
       <ToastContainer theme="colored" />
     </div>
   );
 };
 
-export default ChatPage;
+export default Chat;

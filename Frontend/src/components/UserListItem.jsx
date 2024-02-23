@@ -1,44 +1,20 @@
 import React from "react";
-import { Avatar, Box, Text } from "@chakra-ui/react";
-import { MdAlternateEmail } from "react-icons/md";
 
 const UserListItem = ({ user, handleFunction }) => {
   return (
-    <Box
-      onClick={handleFunction}
-      cursor="pointer"
-      bg="#e8e8e8"
-      transition="200ms ease-in-out"
-      _hover={{
-        background: "#1d1931",
-        color: "#fff",
-      }}
-      w="100%"
-      d="flex"
-      alignItems="center"
-      color="#000"
-      px={3}
-      py={2}
-      mb={2}
-      borderRadius="lg"
-    >
-      <Avatar
-        mr={2}
-        size="sm"
-        cursor="pointer"
-        name={user.name}
-        src={user.image}
+    <div className="d-flex border p-2 mx-3 my-1 align-items-center rounded" onClick={handleFunction}>
+      <img
+        src={
+          user?.image
+            ? user.image
+            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+        }
+        className="img-fluid rounded-circle d-block"
+        style={{ width: "10%" }}
+        alt="No Photo"
       />
-      <Box>
-        <Text fontWeight="bold">{user.name} </Text>
-        <Text fontSize="sm" d="flex" alignItems="center">
-          <b>
-            <MdAlternateEmail />
-          </b>
-            {user.email}
-        </Text>
-      </Box>
-    </Box>
+      <p className="fs-5">{user.name}</p>
+    </div>
   );
 };
 

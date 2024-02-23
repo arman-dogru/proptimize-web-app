@@ -1,0 +1,66 @@
+.chatbox {
+  flex: 0 0 auto;
+  padding: 1.5em;
+  padding-bottom: 0em;
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin-left: -1em;
+  margin-bottom: 0em;
+}
+.chatarea {
+  display: flex;
+  flex-direction: column;
+  height: 85%;
+}
+.onlineicon {
+  width: 12px;
+  height: 12px;
+  border-radius: 10em;
+  background-color: rgb(144, 220, 30);
+}
+
+.chatprofilearea p {
+  font-size: large;
+  font-weight: bolder;
+  color: #181818;
+}
+.allmessages {
+  padding: auto;
+  height: 100%;
+  overflow-y: auto;
+  flex: 1;
+}
+.messagesender {
+  display: flex;
+  gap: 0.5em;
+}
+.message {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  margin-top: 1rem;
+}
+.messagetext {
+  margin-top: -0.75em;
+  padding: 0.75em;
+  margin-left: 2em;
+  width: 70%;
+}
+.avatar {
+  height: 2.5em;
+  width: 2.5em;
+  margin: 0;
+  border-radius: 10rem;
+  align-items: center;
+  overflow: hidden;
+}
+.sender {
+  margin-left: 0.5em;
+  font-weight: bolder;
+}
+.newmessage {
+  margin-bottom: 3em;
+  width: 65vw;
+}
