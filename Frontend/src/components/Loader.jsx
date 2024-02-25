@@ -1,25 +1,21 @@
 import React from "react";
-import { Spinner, Box } from "@chakra-ui/react";
 
 const Loader = () => {
   return (
-    <Box
-      d="flex"
-      justifyContent="center"
-      alignItems="center"
-      width="100%"
-      height="100%"
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{
+        height: "50vh",
+      }}
     >
-      <Spinner
-        size="xl"
-        h={20}
-        w={20}
-        thickness="4px"
-        color="#fff"
-        emptyColor="#1d1931"
-        speed="0.4s"
-      />
-    </Box>
+      <div
+        class="spinner-border text-secondary align-center "
+        style={{ width: "5rem", height: "5rem" }}
+        role="status"
+      >
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
   );
 };
 

@@ -1,29 +1,13 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-  Divider,
-  FormControl,
-  Input,
-  Box,
-} from "@chakra-ui/react";
-import axios from "axios";
 import { toast } from "react-toastify";
-import { useDisclosure } from "@chakra-ui/hooks";
 import { ChatState } from "../context/ChatProvider";
-import { IoIosArrowForward } from "react-icons/io";
-import UserListItem from "./UserListItem";
+import axios from "axios";
 import Loader from "./Loader";
-import UserBadgeItem from "./UserBadgeItem";
+import UserListItem from "./UserListItem";
+import UserBadge from "./UserBadge";
+import { IoIosArrowForward } from "react-icons/io";
 
-const GroupChatModal = ({ children }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+const GroupCreateModal = () => {
   const [groupChatName, setGroupChatName] = useState();
   const [selectedUser, setSelectedUser] = useState([]);
   const [search, setSearch] = useState("");
@@ -101,7 +85,7 @@ const GroupChatModal = ({ children }) => {
         config
       );
       setChats([data, ...chats]);
-      onClose();
+      document.getElementById("closebtn").click()
       setSubmitLoading(false);
       toast.success(`${groupChatName} successfully created`);
       setSelectedUser([]);
@@ -112,86 +96,88 @@ const GroupChatModal = ({ children }) => {
     }
   };
   return (
-    <>
-      <span onClick={onOpen}>{children}</span>
-
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader
-            fontSize="1.25rem"
-            d="flex"
-            justifyContent="center"
-            textTransform="capitalize"
-          >
-            Create Group
-          </ModalHeader>
-          <Divider />
-          <ModalCloseButton />
-          <ModalBody d="flex" flexDir="column" alignItems="center">
-            <FormControl pb="5" pt="5">
-              <Input
+    <div
+      class="modal fade"
+      id="groupcreatemodal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header ">
+            <h1 class="modal-title fs-3 w-100 text-center">Create Group</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              id="closebtn"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-1 mt-1 fw-bold">
+              <input
+                type="text"
+                class="form-control"
                 placeholder="Enter Group Name"
+                aria-label="Chat Name"
+                aria-describedby="button-addon2"
                 onChange={(e) => setGroupChatName(e.target.value)}
               />
-            </FormControl>
-            <FormControl>
-              <Input
-                placeholder="Add members to group"
-                onChange={(e) => handleSearch(e.target.value)}
+            </div>
+          </div>
+          <div className="mx-3">
+            <input
+              type="text"
+              placeholder="Add members to group"
+              className="form-control"
+              onChange={(e) => handleSearch(e.target.value)}
+            />
+            {selectedUser?.map((user) => (
+              <UserBadge
+                key={user._id}
+                user={user}
+                handleFunction={() => handleRemoveUser(user)}
               />
-            </FormControl>
-            <Box w="100%" d="flex" flexWrap="wrap" mb="3">
-              {selectedUser.map((user) => (
-                <UserBadgeItem
-                  key={user._id}
-                  user={user}
-                  handleFunction={() => handleRemoveUser(user)}
-                />
-              ))}
-            </Box>
-            <Divider />
-            <Box
-              minHeight="150px"
-              maxHeight="150px"
-              w="100%"
-              mt="3"
-              overflowY="scroll"
-            >
-              {loading ? (
-                <Loader />
-              ) : (
-                searchResult
-                  ?.slice(0, 4)
-                  .map((user) => (
-                    <UserListItem
-                      width="100%"
-                      key={user._id}
-                      user={user}
-                      handleFunction={() => handleSelectUser(user)}
-                    />
-                  ))
-              )}
-            </Box>
-          </ModalBody>
+            ))}
+          </div>
 
-          <ModalFooter>
-            <Button
-              bg="#1d1931"
-              color="#fff"
-              colorScheme="blackAlpha"
-              mr={3}
+          <div
+            className="d-flex flex-column mt-2 overflow-auto"
+            style={{ height: "200px" }}
+          >
+            {loading ? (
+              <Loader />
+            ) : (
+              searchResult
+                ?.slice(0, 4)
+                .map((user) => (
+                  <UserListItem
+                    width="100%"
+                    key={user._id}
+                    user={user}
+                    handleFunction={() => handleSelectUser(user)}
+                  />
+                ))
+            )}
+          </div>
+
+          <div class="modal-footer">
+            <button
+              class="btn btn-primary fw-bold w-100"
+              type="button"
               onClick={handleSubmit}
               rightIcon={<IoIosArrowForward />}
               isLoading={submitLoading}
             >
-              Create
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+              CREATE GROUP
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default GroupChatModal;
+export default GroupCreateModal;
